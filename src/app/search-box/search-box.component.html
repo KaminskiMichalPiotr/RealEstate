@@ -1,0 +1,71 @@
+<div class="container">
+  <div class="col-md-8 offset-md-2">
+    <div class="card">
+      <h4 class="card-header" (click)="isCollapsed = !isCollapsed"
+          [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">Search bar</h4>
+      <div class="card-body" id="collapseExample" [ngbCollapse]="isCollapsed">
+        <form [formGroup]="searchForm" (ngSubmit)="search()">
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="type">Real Estate type</label>
+              <select formControlName="type" class="form-control">
+                <option *ngFor="let estateType of estateTypes">{{estateType}}</option>
+              </select>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="district">District</label>
+              <select formControlName="district" class="form-control" #district (change)="populateCities(district.value)">
+                <option *ngFor="let district of districts">{{district}}</option>
+              </select>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="city">City</label>
+              <select formControlName="city" class="form-control">
+                <option *ngFor="let city of cities">{{city}}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-3">
+              <label for="areaMin">Minimal area</label>
+              <input type="text" class="form-control" formControlName="areaMin">
+            </div>
+            <div class="form-group col-md-3">
+              <label for="areaMax">Maximal area</label>
+              <input type="text" class="form-control" formControlName="areaMax">
+            </div>
+            <div class="form-group col-md-3">
+              <label for="priceMin">Minimal price</label>
+              <input type="text" class="form-control" formControlName="priceMin">
+            </div>
+            <div class="form-group col-md-3">
+              <label for="priceMax">Maximal price</label>
+              <input type="text" class="form-control" formControlName="priceMax">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-5">
+              <label for="perMin">Minimal price per m<sup>2</sup></label>
+              <input type="text" class="form-control" formControlName="perMin">
+            </div>
+            <div class="form-group col-md-5">
+              <label for="perMax">Maximal price per m<sup>2</sup></label>
+              <input type="text" class="form-control" formControlName="perMax">
+            </div>
+            <div class="form-group col-md-2 text-center mt-4 pt-2">
+              <button [disabled]="loading" class="btn btn-success">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                Search
+              </button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+

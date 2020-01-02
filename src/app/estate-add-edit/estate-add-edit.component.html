@@ -1,0 +1,189 @@
+<div class="container">
+  <div class="col-md-8 offset-md-2 mt-1">
+    <div class="card">
+      <h4 class="card-header">Announcement Dashboard</h4>
+      <div class="card-body">
+        <form [formGroup]="announcementForm" (ngSubmit)="proceedChanges()">
+
+          <div class="form-group">
+            <label for="area">Area</label>
+            <input type="text" formControlName="area" class="form-control" [value]="editMode ? estate.area : ''"/>
+          </div>
+          <div class="form-group">
+            <label for="price">Price</label>
+            <input type="text" formControlName="price" class="form-control" [value]="editMode ? estate.price : ''"/>
+          </div>
+          <div class="form-group">
+            <label for="realEstateType">Real Estate Type</label>
+            <select formControlName="realEstateType" class="form-control" #estateType
+                    (change)="switchEstate(estateType.value)">
+              <option *ngFor="let estateType of estateTypes"
+                      [selected]="editMode && estate.realEstateType == estateType">{{estateType}}</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="district">District</label>
+              <select formControlName="district" class="form-control" #district
+                      (change)="populateCities(district.value)">
+                <option *ngFor="let district of districts"
+                        [selected]="editMode && estate.address.district == district">{{district}}</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="city">City</label>
+              <select formControlName="city" class="form-control">
+                <option *ngFor="let city of cities"
+                        [selected]="editMode && estate.address.city == city">{{city}}</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- PLOT -->
+          <div class="form-row" *ngIf="plotModel != null">
+            <div class="form-group col-md-4">
+              <label for="isWaterAvailable">Water Available</label>
+              <select formControlName="isWaterAvailable" class="form-control">
+                <option [selected]="editMode && plotModel.isWaterAvailable">true</option>
+                <option [selected]="editMode && !plotModel.isWaterAvailable">false</option>
+              </select>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="isGasAvailable">Gas Available</label>
+              <select formControlName="isGasAvailable" class="form-control">
+                <option [selected]="editMode && plotModel.isGasAvailable">true</option>
+                <option [selected]="editMode && !plotModel.isGasAvailable">false</option>
+              </select>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="isEnergyAvailable">Energy Available</label>
+              <select formControlName="isEnergyAvailable" class="form-control">
+                <option [selected]="editMode && plotModel.isEnergyAvailable">true</option>
+                <option [selected]="editMode && !plotModel.isEnergyAvailable">false</option>
+              </select>
+            </div>
+            <div class="form-group col-md-12">
+              <label for="plotType">Plot Type</label>
+              <select formControlName="plotType" class="form-control">
+                <option [selected]="editMode && plotModel.plotType == 'BUILDING_PLOT'">BUILDING_PLOT</option>
+                <option [selected]="editMode && plotModel.plotType == 'AGRICULTURAL_PARCEL'">AGRICULTURAL_PARCEL
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <!-- HOUSE -->
+          <div class="form-row" *ngIf="houseModel != null">
+            <div class="form-group col-md-4">
+              <label for="numberOfFloors">Number Of Floors</label>
+              <input type="text" formControlName="numberOfFloors" class="form-control"
+                     [value]="editMode ? houseModel.numberOfFloors : ''"/>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="numberOfRooms">Number Of Rooms</label>
+              <input type="text" formControlName="numberOfRooms" class="form-control"
+                     [value]="editMode ? houseModel.numberOfRooms : ''"/>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="gardenArea">Garden Area</label>
+              <input type="text" formControlName="gardenArea" class="form-control"
+                     [value]="editMode ? houseModel.gardenArea : ''"/>
+            </div>
+          </div>
+
+          <!-- FLAT -->
+          <div class="form-row" *ngIf="flatModel != null">
+            <div class="form-group col-md-3">
+              <label for="pcvWindows">Pcv Windows</label>
+              <select formControlName="pcvWindows" class="form-control">
+                <option [selected]="editMode && flatModel.pcvWindows">true</option>
+                <option [selected]="editMode && !flatModel.pcvWindows">false</option>
+              </select>
+            </div>
+            <div class="form-group col-md-3">
+              <label for="urbanHeating">Urban Heating</label>
+              <select formControlName="urbanHeating" class="form-control">
+                <option [selected]="editMode && flatModel.urbanHeating">true</option>
+                <option [selected]="editMode && !flatModel.urbanHeating">false</option>
+              </select>
+            </div>
+            <div class="form-group col-md-3">
+              <label for="floorNumber">Floor Number</label>
+              <input type="text" formControlName="floorNumber" class="form-control"
+                     [value]="editMode ? flatModel.floorNumber : ''"/>
+            </div>
+            <div class="form-group col-md-3">
+              <label for="numberOfRoomsFlat">Number Of Rooms</label>
+              <input type="text" formControlName="numberOfRoomsFlat" class="form-control"
+                     [value]="editMode ? flatModel.numberOfRooms : ''"/>
+            </div>
+          </div>
+
+          <!-- BUSINESS ESTABLISHMENT -->
+          <div class="form-row" *ngIf="businessEstablishmentModel != null">
+            <div class="form-group col-md-12">
+              <label for="businessEstablishmentType">Business Establishment Type</label>
+              <select formControlName="businessEstablishmentType" class="form-control">
+                <option [selected]="editMode && businessEstablishmentModel.businessEstablishmentType == 'GARAGE'">
+                  GARAGE
+                </option>
+                <option [selected]="editMode && businessEstablishmentModel.businessEstablishmentType == 'WAREHOUSE'">
+                  WAREHOUSE
+                </option>
+                <option [selected]="editMode && businessEstablishmentModel.businessEstablishmentType == 'HALL'">HALL
+                </option>
+                <option
+                  [selected]="editMode && businessEstablishmentModel.businessEstablishmentType == 'BUSINESS_PREMISES'">
+                  BUSINESS_PREMISES
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" formControlName="description" rows="3"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="thumbnailPath">Thumbnail path</label>
+            <input class="form-control" formControlName="thumbnailPath" type='text' [placeholder]="'160x123'">
+          </div>
+
+          <div class="form-group">
+            <label for="picturePath">Pictures paths</label>
+            <div class="row">
+              <div class="col-md-10">
+                <input class="form-control" formControlName="picturePath" type='text' [placeholder]="'900x900'">
+              </div>
+              <div class="col-md-2">
+                <a class="btn btn-success mr-1" (click)="add()">
+                  Add
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="row mb-1" *ngFor="let path of picturePaths, let i = index" style="background-color: #E0E0E0; border-radius: 25px ">
+              <div class="col-md-8 pt-1">
+                {{path}}
+              </div>
+              <div class="col-md-4">
+                <span class="float-right">
+                  <a class="btn btn-danger mr-2" (click)="remove(i)">
+                    <i class="fa fa-trash"></i>
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn btn-success" [textContent]="editMode ? 'Edit' : 'Create'"></button>
+          <div *ngIf="invalid" class="alert alert-danger mt-3 mb-0">Make sure all params are set!</div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+

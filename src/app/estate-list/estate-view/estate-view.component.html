@@ -1,0 +1,34 @@
+<div class="estate-view">
+  <div class="row">
+    <div class="col-md-4">
+      <img [src]="realEstate.thumbnailPath" class="rounded mx-auto d-block img-thumbnail" alt="..."
+           (click)="details()" style="cursor:pointer; max-height: 143px">
+    </div>
+    <div class="col-md-8">
+      <div class="row">
+        <div class="col-md-12">
+          <p>{{realEstate.realEstateType}} for sale, {{realEstate.address.country}}, {{realEstate.address.district}}
+            , {{realEstate.address.city}}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <a>Area - {{realEstate.area}} m<sup>2</sup></a>
+          <br>
+          <a>Price - {{realEstate.pricePerSquareMeter}} zł/m<sup>2</sup></a>
+        </div>
+        <div class="col-md-6">
+          <p>Price - {{realEstate.price}}zł</p>
+          <span class="float-right" *ngIf="currentUser.admin || currentUser.standardUser">
+            <button class="btn-primary mr-1" (click)="edit()">
+              <i class="fa fa-edit"></i>
+            </button>
+            <button class="btn-danger mr-2" (click)="remove()">
+              <i class="fa fa-trash"></i>
+            </button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

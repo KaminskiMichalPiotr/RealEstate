@@ -1,0 +1,50 @@
+<div class="container mt-5">
+  <div class="card">
+    <div class="card-body">
+      <form [formGroup]="userForm" (ngSubmit)="submit()">
+
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="name">Name</label>
+            <input type="text" formControlName="name" id="name" class="form-control"/>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="surname">Surname</label>
+            <input type="text" formControlName="surname" id="surname" class="form-control"/>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="admin">Admin</label>
+            <select formControlName="admin" class="form-control" id="admin">
+              <option>true</option>
+              <option>false</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="login">Login</label>
+            <input type="text" formControlName="login" class="form-control" id="login"/>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="password">Password</label>
+            <input type="text" formControlName="password" class="form-control" id="password" [placeholder]="placeholder"/>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="standardUser">Standard User</label>
+            <select formControlName="standardUser" class="form-control" id="standardUser">
+              <option>true</option>
+              <option>false</option>
+            </select>
+          </div>
+        </div>
+
+        <button [disabled]="loading" class="btn btn-success" [textContent]="editMode ? 'Edit' : 'Create'">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+        </button>
+        <div *ngIf="invalid" class="alert alert-danger mt-3 mb-0">Make sure all params are set!</div>
+
+      </form>
+    </div>
+  </div>
+</div>

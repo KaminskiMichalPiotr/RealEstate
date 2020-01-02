@@ -1,0 +1,45 @@
+<div class="fixed-top">
+  <header class="topbar">
+    <div class="container">
+      <div class="row">
+        <!-- social icon-->
+        <div class="col-sm-12">
+          <p *ngIf="currentUser.name" class="user-data" style="margin-top: 12px;  font-size: 14px;">Witaj, {{currentUser.name}} {{currentUser.surname}}</p>
+          <ul class="social-network">
+            <li><a class="white-icon pointer" (click)="login()"><i class="fa fa-sign-in"></i></a></li>
+            <li><a class="white-icon pointer" (click)="logout()"><i class="fa fa-sign-out"></i></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!--data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"-->
+  <nav class="navbar navbar-expand-lg navbar-dark mx-background-top-linear">
+    <div class="container">
+      <a class="navbar-brand pointer" [routerLink]="['/']" style="text-transform: uppercase;">BEST REAL ESTATE COMPANY</a>
+      <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed"
+              [attr.aria-expanded]="!isCollapsed" aria-controls="navbarResponsive">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive" [ngbCollapse]="isCollapsed">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link pointer" [routerLink]="['/']">Home
+            </a>
+          </li>
+          <li class="nav-item" *ngIf="currentUser.standardUser">
+            <a class="nav-link pointer" [routerLink]="['/add-estate']">Add announcement</a>
+          </li>
+          <li class="nav-item" *ngIf="currentUser.admin">
+            <a class="nav-link pointer" [routerLink]="['/add-user']">Add user</a>
+          </li>
+          <li class="nav-item" *ngIf="currentUser.admin">
+            <a class="nav-link pointer" [routerLink]="['/manage-users']">Manage users</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
+
+

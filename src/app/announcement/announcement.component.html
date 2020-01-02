@@ -1,0 +1,139 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+
+      <ngb-carousel *ngIf="images">
+        <ng-template ngbSlide *ngFor="let image of images">
+          <div>
+            <img [src]=image alt="Random first slide" class="img-fluid img-thumbnail">
+          </div>
+        </ng-template>
+      </ngb-carousel>
+
+
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+        <h4 class="card-header text-center">Details</h4>
+        <div class="card-body">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="area">Area</label>
+              <input type="text" id="area" class="form-control" disabled [value]="realEstate.area"/>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="price">Price</label>
+              <input type="text" id="price" class="form-control" disabled [value]="realEstate.price"/>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="pricePer">Price per m<sup>2</sup></label>
+              <input type="text" id="pricePer" class="form-control" disabled [value]="realEstate.pricePerSquareMeter"/>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="realEstateType">Real Estate Type</label>
+              <input type="text" id="realEstateType" class="form-control" disabled [value]="realEstate.realEstateType"/>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="district">District</label>
+              <input type="text" id="district" class="form-control" disabled [value]="realEstate.address.district"/>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="city">City</label>
+              <input type="text" id="city" class="form-control" disabled [value]="realEstate.address.city"/>
+            </div>
+          </div>
+
+          <!-- PLOT -->
+          <div class="form-row" *ngIf="plotModel != null">
+            <div class="form-group col-md-4">
+              <label for="isWaterAvailable">Water Available</label>
+              <input type="text" id="isWaterAvailable" class="form-control" disabled
+                     [value]="plotModel.isWaterAvailable ? 'true' : 'false'"/>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="isGasAvailable">Gas Available</label>
+              <input type="text" id="isGasAvailable" class="form-control" disabled
+                     [value]="plotModel.isGasAvailable ? 'true' : 'false'"/>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="isEnergyAvailable">Energy Available</label>
+              <input type="text" id="isEnergyAvailable" class="form-control" disabled
+                     [value]="plotModel.isEnergyAvailable ? 'true' : 'false'"/>
+            </div>
+            <div class="form-group col-md-12">
+              <label for="plotType">Plot Type</label>
+              <input type="text" id="plotType" class="form-control" disabled [value]="plotModel.plotType"/>
+            </div>
+          </div>
+
+          <!--TODO-->
+          <!-- HOUSE -->
+          <div class="form-row" *ngIf="houseModel != null">
+            <div class="form-group col-md-4">
+              <label for="numberOfFloors">Number Of Floors</label>
+              <input type="text" id="numberOfFloors" class="form-control" disabled
+                     [value]="houseModel.numberOfFloors"/>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="numberOfRooms">Number Of Rooms</label>
+              <input type="text" id="numberOfRooms" class="form-control" disabled
+                     [value]="houseModel.numberOfRooms"/>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="gardenArea">Garden Area</label>
+              <input type="text" id="gardenArea" class="form-control" disabled
+                     [value]="houseModel.gardenArea"/>
+            </div>
+          </div>
+
+          <!-- FLAT -->
+          <div class="form-row" *ngIf="flatModel != null">
+            <div class="form-group col-md-6">
+              <label for="pcvWindows">Pcv Windows</label>
+              <input type="text" id="pcvWindows" class="form-control" disabled
+                     [value]="flatModel.pcvWindows ? 'true' : 'false'"/>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="urbanHeating">Urban Heating</label>
+              <input type="text" id="urbanHeating" class="form-control" disabled
+                     [value]="flatModel.urbanHeating ? 'true' : 'false'"/>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="floorNumber">Floor Number</label>
+              <input type="text" id="floorNumber" class="form-control" disabled
+                     [value]="flatModel.floorNumber"/>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="numberOfRoomsFlat">Number Of Rooms</label>
+              <input type="text" id="numberOfRoomsFlat" class="form-control" disabled
+                     [value]="flatModel.numberOfRooms"/>
+            </div>
+          </div>
+
+          <!-- BUSINESS ESTABLISHMENT -->
+          <div class="form-row" *ngIf="businessEstablishmentModel != null">
+            <div class="form-group col-md-12">
+              <label for="businessEstablishmentType">Business Establishment Type</label>
+              <input type="text" id="businessEstablishmentType" class="form-control" disabled
+                     [value]="businessEstablishmentModel.businessEstablishmentType"/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col">
+      <p>{{announcement.description}}</p>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col">
+      <p class="float-right">Contact + 012 345 678 9</p>
+    </div>
+  </div>
+</div>

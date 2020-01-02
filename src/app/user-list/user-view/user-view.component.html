@@ -1,0 +1,43 @@
+<div class="mb-3">
+  <div class="card">
+    <div class="card-body">
+      <form [formGroup]="userForm">
+
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="name">Name</label>
+            <input type="text" formControlName="name" id="name" class="form-control"/>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="surname">Surname</label>
+            <input type="text" formControlName="surname" id="surname" class="form-control"/>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="login">Login</label>
+            <input type="text" formControlName="login" id="login" class="form-control"/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="admin">Admin</label>
+            <input type="text" formControlName="admin" id="admin" class="form-control"/>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="standardUser">Standard User</label>
+            <input type="text" formControlName="standardUser" id="standardUser" class="form-control"/>
+          </div>
+          <div class="col-md-4 mt-4 pt-2">
+            <span class="float-right">
+            <button class="btn-primary mr-1" (click)="edit()">
+              <i class="fa fa-edit"></i>
+            </button>
+            <button class="btn-danger mr-2" (click)="remove()">
+              <i class="fa fa-trash"></i>
+            </button>
+            </span>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
