@@ -6,7 +6,6 @@ import { environment } from '../../environments/environment';
 import { RealEstateService } from './real-estate.service';
 import { ParameterSearch } from '../shared/parameter-search.model';
 import { AnnouncementService } from './announcement.service';
-import { compareNumbers } from '@angular/compiler-cli/src/diagnostics/typescript_version';
 
 
 @Injectable({
@@ -28,7 +27,7 @@ export class EstateListService {
     this.currentEstatePaginationData = this.estatePaginationData.asObservable();
     realEstateService.getSearchResult().subscribe(value => {
       this.estateList = value;
-      this.estateList = this.estateList.sort((a, b) => (a.id > b.id ? -1 : 1))
+      this.estateList = this.estateList.sort((a, b) => (a.id > b.id ? -1 : 1));
       this.estatePaginationData.next((this.switchPage(1)));
     });
   }
@@ -44,7 +43,6 @@ export class EstateListService {
     const pageSize = environment.pagination;
     const totalItems = this.estateList.length;
 
-    // ensure current page isn't out of range
     if (index < 1) {
       index = 1;
     } else if (index > totalPages) {
@@ -54,29 +52,23 @@ export class EstateListService {
     let startPage: number;
     let endPage: number;
     if (totalPages <= maxPages) {
-      // total pages less than max so show all pages
       startPage = 1;
       endPage = totalPages;
     } else {
-      // total pages more than max so calculate start and end pages
       const maxPagesBeforeCurrentPage = Math.floor(maxPages / 2);
       const maxPagesAfterCurrentPage = Math.ceil(maxPages / 2) - 1;
       if (index <= maxPagesBeforeCurrentPage) {
-        // current page near the start
         startPage = 1;
         endPage = maxPages;
       } else if (index + maxPagesAfterCurrentPage >= totalPages) {
-        // current page near the end
         startPage = totalPages - maxPages + 1;
         endPage = totalPages;
       } else {
-        // current page somewhere in the middle
         startPage = index - maxPagesBeforeCurrentPage;
         endPage = index + maxPagesAfterCurrentPage;
       }
     }
 
-    // calculate start and end item indexes
     const startIndex = (index - 1) * pageSize;
     const endIndex = Math.min(startIndex + pageSize - 1, totalItems - 1);
     const pages = Array.from(Array((endPage + 1) - startPage).keys()).map(i => startPage + i);
@@ -102,6 +94,17 @@ export class EstateListService {
     });
   }
 
+  addEstate(estate: RealEstate) {
+    const result = this.estateList.find(x => x.id === estate.id);
+    if (result) {
+      const indexOf = this.estateList.indexOf(result);
+      this.estateList[indexOf] = estate;
+    } else {
+      this.estateList.unshift(estate);
+    }
+    this.switchToPage(this.estatePaginationData.getValue().currentPage);
+  }
+
 
   search(params: ParameterSearch) {
     this.realEstateService.search(params).subscribe(value => {
@@ -110,6 +113,33 @@ export class EstateListService {
     });
   }
 
+  sortAreaInc() {
+    this.estateList = this.estateList.sort((a, b) => (a.area < b.area ? -1 : 1));
+    this.reload();
+  }
 
+  sortAreaDec() {
+    this.estateList = this.estateList.sort((a, b) => (a.area > b.area ? -1 : 1));
+    this.reload();
+  }
+
+  sortPriceDec() {
+    this.estateList = this.estateList.sort((a, b) => (a.price > b.price ? -1 : 1));
+    this.reload();
+  }
+
+  sortPriceInc() {
+    this.estateList = this.estateList.sort((a, b) => (a.price < b.price ? -1 : 1));
+    this.reload();
+  }
+
+  sortDefault() {
+    this.estateList = this.estateList.sort((a, b) => (a.id > b.id ? -1 : 1));
+    this.reload();
+  }
+
+  private reload() {
+    this.estatePaginationData.next((this.switchPage(this.selectedPage)));
+  }
 
 }

@@ -9,6 +9,16 @@ export class Validator {
     return false;
   }
 
+  public static validateAnnouncement(announcementForm: FormGroup, gallery: string[]): boolean {
+    if (gallery.length === 0) {
+      return false;
+    }
+    if (!announcementForm.get('description').value) {
+      return false;
+    }
+    return true;
+  }
+
   public static validateEstate(announcementForm: FormGroup): boolean {
     if (!Validator.isNumberAndNotEmpty(announcementForm.get('area').value)) {
       this.resetValue('area', announcementForm);
@@ -25,6 +35,9 @@ export class Validator {
       return false;
     }
     if (!announcementForm.get('city').value) {
+      return false;
+    }
+    if (!announcementForm.get('thumbnailPath').value) {
       return false;
     }
     return true;

@@ -19,6 +19,7 @@ export class UserAddEditComponent implements OnInit {
   invalid = false;
   @Input() user: User;
   userForm: FormGroup;
+  errMsg = '';
 
   constructor(private router: Router, private userEdit: UserEditService,
               private userService: UserService, private userListService: UserListService) {
@@ -56,9 +57,9 @@ export class UserAddEditComponent implements OnInit {
       this.userService.submitUser(userToPersist).subscribe(value => {
         this.userEdit.switch(value);
         this.userListService.reload();
-      }
+        this.router.navigate(['/manage-users']);
+      }, error1 => {this.errMsg = error1.error }
       );
-      this.router.navigate(['/manage-users']);
     } else {
       this.invalid = true;
     }

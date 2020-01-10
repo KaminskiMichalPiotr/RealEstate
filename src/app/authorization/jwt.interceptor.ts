@@ -16,6 +16,7 @@ export class JwtInterceptor implements HttpInterceptor {
         setHeaders: {
           Authorization: `Bearer ${auth.token}`
         }
+
       });
     }
 

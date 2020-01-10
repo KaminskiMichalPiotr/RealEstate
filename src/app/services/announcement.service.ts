@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Announcement } from '../shared/announcement.model';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
+import { environment, JSONHeader } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -26,4 +26,9 @@ export class AnnouncementService {
   deleteAnnouncementByEstateId(id: number) {
     return this.http.delete(this.path + 'estate/' + id);
   }
+
+  save(model: Announcement) {
+    return this.http.post<Announcement>(this.path, model, {headers: JSONHeader});
+  }
+
 }

@@ -1,5 +1,6 @@
 <div class="container">
-  <div class="col-md-8 offset-md-2">
+  <div class="row">
+  <div class="col-md-8 offset-2">
     <div class="card">
       <h4 class="card-header" (click)="isCollapsed = !isCollapsed"
           [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">Search bar</h4>
@@ -65,6 +66,19 @@
         </form>
       </div>
     </div>
+  </div>
+  <div class="col-md-2 mt-3">
+    <div ngbDropdown class="d-inline-block">
+      <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Sort by</button>
+      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+        <button ngbDropdownItem (click)="areaDec()">Area decreasing</button>
+        <button ngbDropdownItem (click)="areaInc()">Area increasing</button>
+        <button ngbDropdownItem (click)="priceDec()">Price decreasing</button>
+        <button ngbDropdownItem (click)="priceInc()">Price increasing</button>
+        <button ngbDropdownItem (click)="default()">Default</button>
+      </div>
+    </div>
+  </div>
   </div>
 </div>
 

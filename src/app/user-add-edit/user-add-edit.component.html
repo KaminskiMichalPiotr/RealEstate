@@ -43,6 +43,7 @@
           <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
         </button>
         <div *ngIf="invalid" class="alert alert-danger mt-3 mb-0">Make sure all params are set!</div>
+        <div *ngIf="errMsg" class="alert alert-danger mt-3 mb-0">{{errMsg}}</div>
 
       </form>
     </div>

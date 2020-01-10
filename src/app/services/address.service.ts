@@ -3,7 +3,6 @@ import { environment, JSONHeader } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Address } from '../shared/address.model';
-import { BusinessEstablishment } from '../shared/business-establishment.model';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +22,5 @@ export class AddressService {
 
   getAddresses(): Observable<Address[]> {
     return this.http.get<Address[]>(this.path, {headers: JSONHeader});
-    // .pipe(map(value => this.addressAdapter.adapt(value)))
   }
 }

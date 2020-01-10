@@ -22,7 +22,7 @@ export class SearchBoxComponent implements OnInit {
   estateTypes: string[] = [];
 
   constructor(private formBuilder: FormBuilder, private addressService: AddressService,
-              private estateService: RealEstateService, private estataeListService: EstateListService) {
+              private estateService: RealEstateService, private estateListService: EstateListService) {
   }
 
   ngOnInit() {
@@ -66,7 +66,7 @@ export class SearchBoxComponent implements OnInit {
       this.extractValueNumber(this.searchForm.get('perMin')),
       this.extractValueNumber(this.searchForm.get('perMax')),
     );
-    this.estataeListService.search(params);
+    this.estateListService.search(params);
   }
 
   extractValueText(form: AbstractControl): string {
@@ -101,4 +101,23 @@ export class SearchBoxComponent implements OnInit {
     this.searchForm.get('city').setValue('');
   }
 
+  areaDec() {
+    this.estateListService.sortAreaDec();
+  }
+
+  areaInc() {
+    this.estateListService.sortAreaInc();
+  }
+
+  priceDec() {
+    this.estateListService.sortPriceDec();
+  }
+
+  priceInc() {
+    this.estateListService.sortPriceInc();
+  }
+
+  default() {
+    this.estateListService.sortDefault();
+  }
 }

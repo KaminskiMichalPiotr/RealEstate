@@ -16,6 +16,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { AnnouncementViewService } from '../services/announcement-view.service';
 import { Validator } from './validator';
 import { Announcement } from '../shared/announcement.model';
+import { AnnouncementService } from '../services/announcement.service';
+import { EstateListService } from '../services/estate-list.service';
 
 @Component({
   selector: 'app-estate-add-edit',
@@ -33,7 +35,9 @@ export class EstateAddEditComponent implements OnInit {
               private businessEstablishmentService: BusinessEstablishmentService,
               private router: Router,
               private formBuilder: FormBuilder,
-              private estateViewService: AnnouncementViewService) {
+              private estateViewService: AnnouncementViewService,
+              private announcementService: AnnouncementService,
+              private estateListService: EstateListService) {
   }
 
   announcementForm: FormGroup;
@@ -52,7 +56,7 @@ export class EstateAddEditComponent implements OnInit {
   cities: string[] = [];
   districts: string[] = [];
   estate: RealEstate = RealEstateService.empty();
-
+  announcementByEstate: Announcement = AnnouncementService.empty();
 
   ngOnInit() {
     this.initForm();
@@ -62,6 +66,12 @@ export class EstateAddEditComponent implements OnInit {
         this.createModel(this.estate);
         this.editMode = true;
         this.disableController('realEstateType');
+        this.announcementService.getAnnouncementByEstateId(this.estate.id).subscribe(value1 => {
+          this.announcementByEstate = value1;
+          this.picturePaths = this.announcementByEstate.picturesPaths;
+          this.announcementForm.patchValue({
+            description: this.announcementByEstate.description});
+        });
       });
     }
     this.estateService.getRealEstateType().subscribe(value => {
@@ -90,16 +100,15 @@ export class EstateAddEditComponent implements OnInit {
 
   proceedChanges() {
     this.invalid = !this.validateForm(this.announcementForm.get('realEstateType').value);
-    console.log(this.announcementForm);
-    console.log(this.extractData(this.announcementForm.get('realEstateType').value));
     if (this.announcementForm.invalid) {
       return;
     }
-    if (this.editMode) {
-      const model = this.extractData(this.announcementForm.get('realEstateType').value);
-    } else {
-
-    }
+    const model = this.extractData(this.announcementForm.get('realEstateType').value);
+    this.announcementService.save(model).subscribe(value => {
+      this.router.navigate(['/']);
+      this.estateListService.addEstate(value.realEstate);
+    });
+    console.log(model);
   }
 
   populateDistricts() {
@@ -130,7 +139,6 @@ export class EstateAddEditComponent implements OnInit {
     }
   }
 
-
   private initForm() {
     this.announcementForm = this.formBuilder.group({
       area: [''],
@@ -157,7 +165,7 @@ export class EstateAddEditComponent implements OnInit {
   }
 
   private validateForm(type): boolean {
-    if (Validator.validateEstate(this.announcementForm)) {
+    if (Validator.validateEstate(this.announcementForm) && Validator.validateAnnouncement(this.announcementForm, this.picturePaths)) {
       if (type === 'HOUSE') {
         return Validator.validateHouse(this.announcementForm);
       } else if (type === 'PLOT') {
@@ -171,11 +179,9 @@ export class EstateAddEditComponent implements OnInit {
     return false;
   }
 
-
   private disableController(controller: string) {
     this.announcementForm.get(controller).disable();
   }
-
 
   switchEstate(value: string) {
     this.houseModel = null;
@@ -193,14 +199,15 @@ export class EstateAddEditComponent implements OnInit {
     }
   }
 
-
   private setValues() {
     this.announcementForm.patchValue({
       area: this.estate.area,
       price: this.estate.price,
       realEstateType: this.estate.realEstateType,
       district: this.estate.address.district,
-      city: this.estate.address.city
+      city: this.estate.address.city,
+      description: this.announcementByEstate.description,
+      thumbnailPath: this.estate.thumbnailPath
     });
     if (this.businessEstablishmentModel) {
       this.announcementForm.patchValue({
@@ -271,8 +278,7 @@ export class EstateAddEditComponent implements OnInit {
       businessEstablishment.businessEstablishmentType = this.announcementForm.get('businessEstablishmentType').value;
       resultEstate = businessEstablishment;
     }
-    // TODO  id?
-    return new Announcement(null, resultEstate, null,
+    return new Announcement(null, resultEstate, this.announcementByEstate.id,
       this.announcementForm.get('description').value, this.picturePaths);
   }
 }

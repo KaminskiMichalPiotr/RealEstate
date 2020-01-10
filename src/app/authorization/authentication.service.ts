@@ -16,9 +16,10 @@ export class AuthenticationService {
   public currentAuthentication: Observable<Authentication>;
 
   constructor(private http: HttpClient) {
-    // check if token didn't expire
+    // check if token exist and didn't expire
     if (this.hasTokenExpired()) {
-      this.currentAuthenticationSubject = new BehaviorSubject<Authentication>(JSON.parse(localStorage.getItem('userToken')));
+      this.currentAuthenticationSubject = new BehaviorSubject<Authentication>
+          (JSON.parse(localStorage.getItem('userToken')));
       this.currentAuthentication = this.currentAuthenticationSubject.asObservable();
     } else {
       this.currentAuthenticationSubject = new BehaviorSubject<Authentication>(null);
